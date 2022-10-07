@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 mapboxgl.accessToken =
-  "pk.eyJ1IjoibmF0ZWdhZ2UiLCJhIjoiY2p5dGc4ZTFyMDN1NzNibWhzdHBjY21ocyJ9.nH4wTRexSr3sL_ri-JGHOQ";
+  "pk.eyJ1IjoibmF0ZWdhZ2UiLCJhIjoiY2w4eXRoeGVjMGlyMzNvbnpoY25pbjQ5MyJ9.REs9iG9rPkhfZ3ZdS-t8Kw";
 
 function App() {
   const mapContainer = useRef(null);
