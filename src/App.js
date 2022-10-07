@@ -1,8 +1,11 @@
 import React, { useRef, useEffect, useState } from "react";
+// import { Upload } from "upload-js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoibmF0ZWdhZ2UiLCJhIjoiY2w4eXRoeGVjMGlyMzNvbnpoY25pbjQ5MyJ9.REs9iG9rPkhfZ3ZdS-t8Kw";
+mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
 function App() {
   const mapContainer = useRef(null);
@@ -31,12 +34,19 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>MAPBOX DEMO</p>
-        <div ref={mapContainer} className="map-container" />
-      </header>
-    </div>
+    <Box className="App">
+      <Grid container className="App-header">
+        <Grid item xs={3} sx={{ marginLeft: "auto", marginRight: "auto" }}>
+          <img src="../My project.png" alt="logo" />
+          <Button variant="contained" size="large">
+            Convert to Celsius
+          </Button>
+        </Grid>
+        <Grid item xs={9}>
+          <div ref={mapContainer} className="map-container" />
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
