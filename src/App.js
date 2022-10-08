@@ -1,9 +1,10 @@
 import React, { useRef, useEffect, useState } from "react";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
-import Grid from "@mui/material/Grid";
+import axios from "axios";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
 import LinearProgress from "@mui/material/LinearProgress";
+import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 
 mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
@@ -15,6 +16,22 @@ function App() {
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
+
+  const mystuff = {
+    some: "stuff",
+    to: "add",
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios.post("http://localhost:3300/", mystuff);
+
+      await axios.get("http://localhost:3300/").then((res) => {
+        setData(JSON.stringify(res.data));
+      });
+    };
+    fetchData();
+  }, []);
 
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -73,6 +90,7 @@ function App() {
             style={{ border: "2px solid #1976d2" }}
           />
         </Grid>
+        <p>{data}</p>
       </Grid>
     </Box>
   );
