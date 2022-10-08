@@ -1,15 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
-// import { Upload } from "upload-js";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import LinearProgress from "@mui/material/LinearProgress";
 
 mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
 function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const [loading, setLoading] = useState(false);
+  const [data, setData] = useState(false);
   const [lng, setLng] = useState(-70.9);
   const [lat, setLat] = useState(42.35);
   const [zoom, setZoom] = useState(9);
@@ -33,17 +35,43 @@ function App() {
     });
   });
 
+  const handleChangeFile = (e) => {
+    console.log("file changed: " + e.target.value);
+  };
+
   return (
     <Box className="App">
-      <Grid container className="App-header">
+      <Grid container className="App-header" sx={{ width: "90%" }}>
         <Grid item xs={3} sx={{ marginLeft: "auto", marginRight: "auto" }}>
-          <img src="../My project.png" alt="logo" />
-          <Button variant="contained" size="large">
+          <img
+            src="../mapbox_logo.png"
+            style={{ height: "40%", marginBottom: "30px" }}
+          />
+          <h4 style={{ marginBottom: "0px" }}>UPLOAD A FILE</h4>
+          <input type="file" onChange={(e) => handleChangeFile(e)} />
+          {loading && (
+            <LinearProgress
+              style={{
+                paddingBottom: "3px",
+                width: "60%",
+              }}
+            />
+          )}
+          <Button
+            variant="contained"
+            size="large"
+            sx={{ width: "80%", marginTop: "50px" }}
+            disabled={data}
+          >
             Convert to Celsius
           </Button>
         </Grid>
         <Grid item xs={9}>
-          <div ref={mapContainer} className="map-container" />
+          <div
+            ref={mapContainer}
+            className="map-container"
+            style={{ border: "2px solid #1976d2" }}
+          />
         </Grid>
       </Grid>
     </Box>
