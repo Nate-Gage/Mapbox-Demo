@@ -17,6 +17,15 @@ code {
   width: 100%;
 }
 
+.marker {
+  background-image: url("../public//mapbox-icon.png");
+  background-size: cover;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
 .App {
   background-color: #ffff;
   min-height: 100vh;
