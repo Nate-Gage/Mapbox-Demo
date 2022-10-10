@@ -14,7 +14,6 @@ mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [file, setFile] = useState();
   const [loading, setLoading] = useState(false);
   const [locations, setLocations] = useState([]);
   const [lng, setLng] = useState(-104.995);
@@ -65,11 +64,7 @@ function App() {
   }, [locations]);
 
   const handleChange = (e) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const file = e.target.files[0];
     const url = "http://localhost:3300/";
     const formData = new FormData();
     formData.append("file", file);
@@ -80,13 +75,18 @@ function App() {
       },
     };
 
-    console.log(formData);
+    for (let key of formData.entries()) {
+      console.log(key);
+    }
 
-    // await axios.post(url, formData, config);
-
-    // await axios.get("http://localhost:3300/").then((res) => {
-    //   setLocations(res.data);
-    // });
+    axios
+      .post(url, formData, config)
+      .then((res) => {
+        console.log("res.data: " + res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -99,10 +99,8 @@ function App() {
             alt="logo"
           />
           <h6 style={{ marginBottom: "0px" }}>Upload a File</h6>
-          <form onSubmit={handleSubmit}>
-            <input type="file" id="input" onChange={handleChange} />
-            <button type="submit">Upload</button>
-          </form>
+          <input type="file" onChange={handleChange} />
+          <br />
           {loading && (
             <LinearProgress
               style={{
@@ -114,15 +112,16 @@ function App() {
           <FormControl sx={{ marginTop: "30px" }}>
             <RadioGroup
               row
-              aria-labelledby="demo-row-radio-buttons-group-label"
+              aria-labelledby="mapbox-demo-radio-buttons-group-label"
               name="row-radio-buttons-group"
+              defaultValue="Fahrenheit"
             >
               <FormControlLabel
-                value="a"
+                value="Fahrenheit"
                 control={<Radio />}
-                label="Farenheit"
+                label="Fahrenheit"
               />
-              <FormControlLabel value="b" control={<Radio />} label="Celsius" />
+              <FormControlLabel value="Celsius" control={<Radio />} label="Celsius" />
             </RadioGroup>
           </FormControl>
         </Grid>

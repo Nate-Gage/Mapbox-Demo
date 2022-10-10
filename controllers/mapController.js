@@ -12,8 +12,8 @@ const getTemps = (req, res) => {
 };
 
 const saveTemps = (req, res) => {
+  console.log("MADE IT IN HERE: " + JSON.stringify(req.body));
   temperatureData = req.body;
-  console.log("TEMP DATA: " + temperatureData);
   res.status(RESOURCE_CREATED).send();
 };
 
