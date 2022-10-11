@@ -1,8 +1,8 @@
 const express = require("express");
 const multer = require("multer");
-const router = express.Router();
 const tempController = require("../controllers/mapController");
 const upload = multer();
+const router = express.Router();
 const FILENAME = "location_data";
 
 // For this demo the routes use the built in error handling of express

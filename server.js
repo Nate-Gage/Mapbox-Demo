@@ -3,8 +3,8 @@ const cors = require("cors");
 const express = require("express");
 const log = require("loglevel");
 const router = require("./routes/router");
-const PORT = 3300;
 const app = express();
+const PORT = 3300;
 
 log.setLevel(process.env.LOG_LEVEL);
 
