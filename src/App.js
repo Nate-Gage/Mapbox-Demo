@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import LinearProgress from "@mui/material/LinearProgress";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -14,22 +13,11 @@ mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [loading, setLoading] = useState(false);
+  const FILENAME = "location_data";
   const [locations, setLocations] = useState([]);
   const [lng, setLng] = useState(-104.995);
   const [lat, setLat] = useState(39.765);
-  const [zoom, setZoom] = useState(3);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     // await axios.post("http://localhost:3300/");
-
-  //     await axios.get("http://localhost:3300/").then((res) => {
-  //       setLocations(res.data);
-  //     });
-  //   };
-  //   fetchData();
-  // }, []);
+  const [zoom, setZoom] = useState(4);
 
   //Initialize map
   useEffect(() => {
@@ -63,23 +51,19 @@ function App() {
     }
   }, [locations]);
 
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
     const file = e.target.files[0];
-    const url = "http://localhost:3300/";
+    const url = "http://localhost:3300/save";
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append("fileName", file.name);
+
+    formData.append(FILENAME, file);
     const config = {
       headers: {
-        "content-type": "multipart/form-data",
+        "Content-Type": "multipart/form-data",
       },
     };
 
-    for (let key of formData.entries()) {
-      console.log(key);
-    }
-
-    axios
+    await axios
       .post(url, formData, config)
       .then((res) => {
         console.log("res.data: " + res.data);
@@ -87,6 +71,10 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+
+    await axios.get("http://localhost:3300/fetch").then((res) => {
+      setLocations(res.data);
+    });
   };
 
   return (
@@ -101,14 +89,6 @@ function App() {
           <h6 style={{ marginBottom: "0px" }}>Upload a File</h6>
           <input type="file" onChange={handleChange} />
           <br />
-          {loading && (
-            <LinearProgress
-              style={{
-                paddingBottom: "3px",
-                width: "60%",
-              }}
-            />
-          )}
           <FormControl sx={{ marginTop: "30px" }}>
             <RadioGroup
               row
@@ -121,7 +101,11 @@ function App() {
                 control={<Radio />}
                 label="Fahrenheit"
               />
-              <FormControlLabel value="Celsius" control={<Radio />} label="Celsius" />
+              <FormControlLabel
+                value="Celsius"
+                control={<Radio />}
+                label="Celsius"
+              />
             </RadioGroup>
           </FormControl>
         </Grid>
