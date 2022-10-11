@@ -24,7 +24,7 @@ input::file-selector-button {
   border-radius: 3px;
   font-size: 18px;
   cursor: pointer;
-  background-color: dodgerblue;
+  background-color: #4DAAF1;
 }
 
 .map-container {
@@ -51,7 +51,7 @@ input::file-selector-button {
 }
 
 .App {
-  background-color: #EAEAEA;
+  background-color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;

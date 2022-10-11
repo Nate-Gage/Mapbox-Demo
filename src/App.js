@@ -123,7 +123,7 @@ function App() {
         <Grid item xs={3}>
           <img
             src="../mapbox-logo.png"
-            style={{ height: "27%", marginBottom: "30px" }}
+            style={{ width: "80%", marginBottom: "30px" }}
             alt="logo"
           />
           <Typography>
