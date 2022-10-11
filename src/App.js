@@ -44,20 +44,24 @@ function App() {
   // add markers to map
   useEffect(() => {
     if (locations !== null) {
+      console.log("running");
+
       for (const city of locations) {
         // create a HTML element for each feature
         const el = document.createElement("div");
         el.className = "marker";
 
+        let popup = new mapboxgl.Popup({ offset: 25 }) // add popups
+          .setHTML(
+            `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
+          );
+
+        popup.remove();
+
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
           .setLngLat(city.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML(
-                `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
-              )
-          )
+          .setPopup(popup)
           .addTo(map.current);
       }
     }
@@ -118,15 +122,16 @@ function App() {
       <Grid container className="App-header" sx={{ width: "90%" }}>
         <Grid item xs={3}>
           <img
-            src="../mapbox_logo.png"
-            style={{ height: "40%", marginBottom: "30px" }}
+            src="../mapbox-logo.png"
+            style={{ height: "27%", marginBottom: "30px" }}
             alt="logo"
           />
           <Typography>
             Upload a file and click on the markers to show the temperature in
             that city.
           </Typography>
-          <input type="file" onChange={handleFileUpload} />
+          <br></br>
+          <input type="file" name="file-upload" onChange={handleFileUpload} />
           <br />
           <Typography sx={{ marginTop: "60px" }}>
             <strong>Select a Unit</strong>
