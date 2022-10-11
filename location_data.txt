@@ -1,0 +1,50 @@
+[
+   {
+      "city":"Denver",
+      "coordinates":[
+         -104.995,
+         39.765
+      ],
+      "temp":"57.12"
+   },
+   {
+      "city":"Salt Lake City",
+      "coordinates":[
+         -112.495,
+         40.776
+      ],
+      "temp":"64.22"
+   },
+   {
+      "city":"Austin",
+      "coordinates":[
+         -98.036,
+         30.308
+      ],
+      "temp":"75.31"
+   },
+   {
+      "city":"San Francisco",
+      "coordinates":[
+         -122.42,
+         37.81
+      ],
+      "temp":"65.38"
+   },
+   {
+      "city":"Seattle",
+      "coordinates":[
+         -122.63,
+         47.61
+      ],
+      "temp":"48.55"
+   },
+   {
+      "city":"Philadelphia",
+      "coordinates":[
+         -75.26,
+         40.00
+      ],
+      "temp":"51.55"
+   }
+]
