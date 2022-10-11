@@ -10,7 +10,7 @@ log.setLevel(process.env.LOG_LEVEL);
 
 app.use(cors())
 app.use(express.json());
-app.use("/", router);
+app.use("/map", router);
 
 // A very simple error-handling middleware. In a production
 // system this would be more robust

@@ -7,11 +7,11 @@ const FILENAME = "location_data";
 
 // For this demo the routes use the built in error handling of express
 // This is done by passing next to .catch()
-router.get("/fetch", (req, res, next) => {
+router.get("/", (req, res, next) => {
   tempController.getTemps(req, res).catch(next);
 });
 
-router.post("/save", upload.single(FILENAME), (req, res, next) => {
+router.post("/", upload.single(FILENAME), (req, res, next) => {
   tempController.saveTemps(req, res).catch(next);
 });
 

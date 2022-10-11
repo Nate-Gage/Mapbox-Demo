@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
+import Typography from "@mui/material/Typography";
 
 mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
@@ -14,13 +15,13 @@ function App() {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const FILENAME = "location_data";
-  const [locations, setLocations] = useState([]);
-  const [lng, setLng] = useState(-104.995);
+  const [locations, setLocations] = useState(null);
+  const [lng, setLng] = useState(-95.995);
   const [lat, setLat] = useState(39.765);
-  const [zoom, setZoom] = useState(4);
+  const [zoom, setZoom] = useState(3.5);
   const [unit, setUnit] = useState("Fahrenheit");
 
-  //Initialize map
+  // Initialize map
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -42,27 +43,49 @@ function App() {
 
   // add markers to map
   useEffect(() => {
-    for (const city of locations) {
-      // create a HTML element for each feature
-      const el = document.createElement("div");
-      el.className = "marker";
+    if (locations !== null) {
+      for (const city of locations) {
+        // create a HTML element for each feature
+        const el = document.createElement("div");
+        el.className = "marker";
 
-      // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el)
-        .setLngLat(city.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(
-              `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
-            )
-        )
-        .addTo(map.current);
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(city.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML(
+                `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
+              )
+          )
+          .addTo(map.current);
+      }
     }
   }, [locations, unit]);
 
+  // convert temp on the client after markers are set
+  useEffect(() => {
+    if (locations !== null) {
+      const convertTemp = (temp) => {
+        if (unit === "Celsius") {
+          return (((temp - 32) * 5) / 9).toFixed(2);
+        } else if (unit === "Fahrenheit") {
+          return ((temp * 9) / 5 + 32).toFixed(2);
+        }
+      };
+
+      let converted;
+      converted = locations.map((city) => {
+        return { ...city, temp: convertTemp(city.temp) };
+      });
+
+      setLocations(converted);
+    }
+  }, [unit]);
+
   const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    const url = "http://localhost:3300";
+    const url = "http://localhost:3300/map";
     const formData = new FormData();
 
     formData.append(FILENAME, file);
@@ -73,7 +96,7 @@ function App() {
     };
 
     await axios
-      .post(`${url}/save`, formData, config)
+      .post(url, formData, config)
       .then((res) => {
         console.log("res.data: " + res.data);
       })
@@ -81,7 +104,7 @@ function App() {
         console.log(err);
       });
 
-    await axios.get(`${url}/fetch?unit=${unit}`).then((res) => {
+    await axios.get(`${url}?unit=${unit}`).then((res) => {
       setLocations(res.data);
     });
   };
@@ -93,16 +116,22 @@ function App() {
   return (
     <Box className="App">
       <Grid container className="App-header" sx={{ width: "90%" }}>
-        <Grid item xs={3} sx={{ marginLeft: "auto", marginRight: "auto" }}>
+        <Grid item xs={3}>
           <img
             src="../mapbox_logo.png"
             style={{ height: "40%", marginBottom: "30px" }}
             alt="logo"
           />
-          <h6 style={{ marginBottom: "0px" }}>Upload a File</h6>
+          <Typography>
+            Upload a file and click on the markers to show the temperature in
+            that city.
+          </Typography>
           <input type="file" onChange={handleFileUpload} />
           <br />
-          <FormControl sx={{ marginTop: "30px" }}>
+          <Typography sx={{ marginTop: "60px" }}>
+            <strong>Select a Unit</strong>
+          </Typography>
+          <FormControl>
             <RadioGroup
               row
               aria-labelledby="mapbox-demo-radio-buttons-group-label"
