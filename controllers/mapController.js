@@ -4,10 +4,22 @@ const RESOURCE_CREATED = 201;
 //In this case I just hold the data in memory
 let temperatureData;
 
+const toCelsius = (temp) => {
+  return (((temp - 32) * 5) / 9).toFixed(2);
+};
+
 // I made these functions asynchronous since these would normally
 // be doing, for example, network calls to a database
 const getTemps = async (req, res) => {
-  res.send(temperatureData);
+  if (req.query.unit === "Fahrenheit") {
+    res.send(temperatureData);
+  } else if (req.query.unit === "Celsius") {
+    const converted = temperatureData.map((city) => {
+      return { ...city, temp: toCelsius(city.temp) };
+    });
+
+    res.send(converted);
+  }
 };
 
 const saveTemps = async (req, res) => {

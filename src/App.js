@@ -18,6 +18,7 @@ function App() {
   const [lng, setLng] = useState(-104.995);
   const [lat, setLat] = useState(39.765);
   const [zoom, setZoom] = useState(4);
+  const [unit, setUnit] = useState("Fahrenheit");
 
   //Initialize map
   useEffect(() => {
@@ -47,13 +48,21 @@ function App() {
       el.className = "marker";
 
       // make a marker for each feature and add to the map
-      new mapboxgl.Marker(el).setLngLat(city.coordinates).addTo(map.current);
+      new mapboxgl.Marker(el)
+        .setLngLat(city.coordinates)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(
+              `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
+            )
+        )
+        .addTo(map.current);
     }
-  }, [locations]);
+  }, [locations, unit]);
 
-  const handleChange = async (e) => {
+  const handleFileUpload = async (e) => {
     const file = e.target.files[0];
-    const url = "http://localhost:3300/save";
+    const url = "http://localhost:3300";
     const formData = new FormData();
 
     formData.append(FILENAME, file);
@@ -64,7 +73,7 @@ function App() {
     };
 
     await axios
-      .post(url, formData, config)
+      .post(`${url}/save`, formData, config)
       .then((res) => {
         console.log("res.data: " + res.data);
       })
@@ -72,9 +81,13 @@ function App() {
         console.log(err);
       });
 
-    await axios.get("http://localhost:3300/fetch").then((res) => {
+    await axios.get(`${url}/fetch?unit=${unit}`).then((res) => {
       setLocations(res.data);
     });
+  };
+
+  const handleChangeUnit = (e) => {
+    setUnit(e.target.value);
   };
 
   return (
@@ -87,7 +100,7 @@ function App() {
             alt="logo"
           />
           <h6 style={{ marginBottom: "0px" }}>Upload a File</h6>
-          <input type="file" onChange={handleChange} />
+          <input type="file" onChange={handleFileUpload} />
           <br />
           <FormControl sx={{ marginTop: "30px" }}>
             <RadioGroup
@@ -95,6 +108,7 @@ function App() {
               aria-labelledby="mapbox-demo-radio-buttons-group-label"
               name="row-radio-buttons-group"
               defaultValue="Fahrenheit"
+              onChange={handleChangeUnit}
             >
               <FormControlLabel
                 value="Fahrenheit"
