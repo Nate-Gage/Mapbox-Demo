@@ -11,14 +11,13 @@ const toCelsius = (temp) => {
 // I made these functions asynchronous since these would normally
 // be doing, for example, network calls to a database
 const getTemps = async (req, res) => {
-  if (req.query.unit === "Fahrenheit") {
-    res.send(temperatureData);
-  } else if (req.query.unit === "Celsius") {
+  if (req.query.unit === "Celsius") {
     const converted = temperatureData.map((city) => {
       return { ...city, temp: toCelsius(city.temp) };
     });
-
     res.send(converted);
+  } else {
+    return temperatureData;
   }
 };
 

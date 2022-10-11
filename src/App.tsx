@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import mapboxgl from "@types/mapbox-gl";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
@@ -87,8 +87,8 @@ function App() {
     }
   }, [unit]);
 
-  const handleFileUpload = async (e) => {
-    const file = e.target.files[0];
+  const handleFileUpload = async (event: React.MouseEvent<HTMLInputElement>) => {
+    const file = event.target.files[0];
     const url = "http://localhost:3300/map";
     const formData = new FormData();
 
@@ -113,8 +113,8 @@ function App() {
     });
   };
 
-  const handleChangeUnit = (e) => {
-    setUnit(e.target.value);
+  const handleChangeUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUnit(event.target.value);
   };
 
   return (
@@ -127,8 +127,7 @@ function App() {
             alt="logo"
           />
           <Typography>
-            Upload a file and click on the markers to show the temperature in
-            that city.
+            Upload a file and click on the markers to display the temperature.
           </Typography>
           <br></br>
           <input type="file" name="file-upload" onChange={handleFileUpload} />
