@@ -55,6 +55,8 @@ const App: React.FC = () => {
         const el = document.createElement("div");
         el.className = "marker";
 
+        console.log("the markers useEffect");
+
         let popup = new mapboxgl.Popup({ offset: 25 }) // add popups
           .setHTML(
             `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
@@ -67,7 +69,7 @@ const App: React.FC = () => {
           .addTo(map.current!);
       }
     }
-  }, [locations, unit]);
+  }, [locations]);
 
   // convert temp on the client after markers are set
   useEffect(() => {
@@ -81,12 +83,12 @@ const App: React.FC = () => {
         }
       };
 
-      let converted: Location[];
+      console.log("the unit useeffect");
 
+      let converted: Location[];
       converted = locations.map((city) => {
         return { ...city, temp: convertTemp(city.temp) };
       });
-
       setLocations(converted);
     }
   }, [unit]);

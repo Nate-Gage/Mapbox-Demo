@@ -1,4 +1,5 @@
 const RESOURCE_CREATED = 201;
+const C = "Celsius";
 
 //Data would normally be managed by a back-end database
 //In this case I just hold the data in memory
@@ -11,7 +12,7 @@ const toCelsius = (temp) => {
 // I made these functions asynchronous since these would normally
 // be doing, for example, network calls to a database
 const getTemps = async (req, res) => {
-  if (req.query.unit === "Celsius") {
+  if (req.query.unit === C) {
     const converted = temperatureData.map((city) => {
       return { ...city, temp: toCelsius(city.temp) };
     });
