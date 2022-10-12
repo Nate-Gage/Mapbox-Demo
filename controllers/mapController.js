@@ -17,7 +17,7 @@ const getTemps = async (req, res) => {
     });
     res.send(converted);
   } else {
-    return temperatureData;
+    res.send(temperatureData);
   }
 };
 
