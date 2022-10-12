@@ -8,9 +8,15 @@ const PORT = 3300;
 
 log.setLevel(process.env.LOG_LEVEL);
 
-app.use(cors())
+app.use(cors());
 app.use(express.json());
+const path = __dirname + "/build";
+app.use(express.static(path));
 app.use("/map", router);
+
+app.get("/", () => {
+  res.sendFile(path + "/index.html");
+});
 
 // A very simple error-handling middleware. In a production
 // system this would be more robust
