@@ -8,6 +8,7 @@ import mapboxgl from "mapbox-gl";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
+import { Location } from "./components/location.model";
 
 mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
@@ -15,11 +16,11 @@ const App: React.FC = () => {
   const mapContainer = useRef<HTMLInputElement | null>(null);
   const map = useRef<HTMLInputElement | null>(null);
   const FILENAME = "location_data";
-  const [locations, setLocations] = useState([]);
-  const [lng, setLng] = useState(-95.995);
-  const [lat, setLat] = useState(39.765);
-  const [zoom, setZoom] = useState(3.5);
-  const [unit, setUnit] = useState("Fahrenheit");
+  const [locations, setLocations] = useState<Location[]>([]);
+  const [lng, setLng] = useState<number>(-95.995);
+  const [lat, setLat] = useState<number>(39.765);
+  const [zoom, setZoom] = useState<number>(3.5);
+  const [unit, setUnit] = useState<string>("Fahrenheit");
 
   // Initialize map
   useEffect(() => {
@@ -81,7 +82,7 @@ const App: React.FC = () => {
         return { ...city, temp: convertTemp(city.temp) };
       });
 
-      setLocations(converted);
+      setLocations(prevLocations => [...prevLocations, converted]);
     }
   }, [unit]);
 
