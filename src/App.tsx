@@ -8,13 +8,16 @@ import mapboxgl from "mapbox-gl";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
-import { Location } from "./components/location.model";
+import { Location } from "./components/models";
 
-mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
+mapboxgl.accessToken =
+  process.env.REACT_APP_ACCESS_TOKEN !== undefined
+    ? process.env.REACT_APP_ACCESS_TOKEN
+    : "";
 
 const App: React.FC = () => {
-  const mapContainer = useRef<HTMLInputElement | null>(null);
-  const map = useRef<HTMLElement | null>(null);
+  const mapContainer = useRef<any>(null);
+  const map = useRef<any>(null);
   const FILENAME = "location_data";
   const [locations, setLocations] = useState<Location[]>([]);
   const [lng, setLng] = useState<number>(-95.995);
@@ -36,9 +39,9 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {
-      setLng(map.current!.getCenter().lng.toFixed(4));
-      setLat(map.current!.getCenter().lat.toFixed(4));
-      setZoom(map.current!.getZoom().toFixed(2));
+      setLng(map?.current?.getCenter().lng.toFixed(4));
+      setLat(map?.current?.getCenter().lat.toFixed(4));
+      setZoom(map?.current?.getZoom().toFixed(2));
     });
   });
 
@@ -61,7 +64,7 @@ const App: React.FC = () => {
         new mapboxgl.Marker(el)
           .setLngLat(city.coordinates)
           .setPopup(popup)
-          .addTo(map.current);
+          .addTo(map.current!);
       }
     }
   }, [locations, unit]);
@@ -77,17 +80,20 @@ const App: React.FC = () => {
         }
       };
 
-      let converted: Location[];
+      let converted;
       converted = locations.map((city) => {
         return { ...city, temp: convertTemp(parseInt(city.temp)) };
       });
-
-      setLocations(prevLocations => [...prevLocations, converted]);
+      setLocations((prevLocations) => [...prevLocations, converted]);
     }
   }, [unit]);
 
-  const handleFileUpload = async (event: React.MouseEvent<HTMLInputElement>) => {
-    const file = event.target.files[0];
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files) {
+      return;
+    }
+
+    let file = e.target.files[0];
     const url = "http://localhost:3300/map";
     const formData = new FormData();
 
@@ -165,6 +171,6 @@ const App: React.FC = () => {
       </Grid>
     </Box>
   );
-}
+};
 
 export default App;
