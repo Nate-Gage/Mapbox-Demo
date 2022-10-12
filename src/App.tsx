@@ -4,18 +4,18 @@ import Box from "@mui/material/Box";
 import FormControl from "@mui/material/FormControl";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Grid from "@mui/material/Grid";
-import mapboxgl from "@types/mapbox-gl";
+import mapboxgl from "mapbox-gl";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
 
 mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
-function App() {
-  const mapContainer = useRef(null);
-  const map = useRef(null);
+const App: React.FC = () => {
+  const mapContainer = useRef<HTMLInputElement | null>(null);
+  const map = useRef<HTMLInputElement | null>(null);
   const FILENAME = "location_data";
-  const [locations, setLocations] = useState(null);
+  const [locations, setLocations] = useState([]);
   const [lng, setLng] = useState(-95.995);
   const [lat, setLat] = useState(39.765);
   const [zoom, setZoom] = useState(3.5);
@@ -24,8 +24,8 @@ function App() {
   // Initialize map
   useEffect(() => {
     if (map.current) return; // initialize map only once
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
+    map.current! = new mapboxgl.Map({
+      container: mapContainer.current!,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
       zoom: zoom,
@@ -34,10 +34,10 @@ function App() {
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-    map.current.on("move", () => {
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
+    map.current!.on("move", () => {
+      setLng(map.current!.getCenter().lng.toFixed(4));
+      setLat(map.current!.getCenter().lat.toFixed(4));
+      setZoom(map.current!.getZoom().toFixed(2));
     });
   });
 
@@ -56,8 +56,6 @@ function App() {
             `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
           );
 
-        popup.remove();
-
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
           .setLngLat(city.coordinates)
@@ -70,7 +68,7 @@ function App() {
   // convert temp on the client after markers are set
   useEffect(() => {
     if (locations !== null) {
-      const convertTemp = (temp) => {
+      const convertTemp = (temp: number) => {
         if (unit === "Celsius") {
           return (((temp - 32) * 5) / 9).toFixed(2);
         } else if (unit === "Fahrenheit") {
@@ -79,7 +77,7 @@ function App() {
       };
 
       let converted;
-      converted = locations.map((city) => {
+      converted = locations.map((city: object) => {
         return { ...city, temp: convertTemp(city.temp) };
       });
 
