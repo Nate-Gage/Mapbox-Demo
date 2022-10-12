@@ -1,5 +1,5 @@
 export interface Location {
     city: string,
-    coordinates: number[],
+    coordinates: [number, number],
     temp: string
 }

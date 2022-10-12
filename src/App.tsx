@@ -14,7 +14,7 @@ mapboxgl.accessToken = process.env.REACT_APP_ACCESS_TOKEN;
 
 const App: React.FC = () => {
   const mapContainer = useRef<HTMLInputElement | null>(null);
-  const map = useRef<HTMLInputElement | null>(null);
+  const map = useRef<HTMLElement | null>(null);
   const FILENAME = "location_data";
   const [locations, setLocations] = useState<Location[]>([]);
   const [lng, setLng] = useState<number>(-95.995);
@@ -25,7 +25,7 @@ const App: React.FC = () => {
   // Initialize map
   useEffect(() => {
     if (map.current) return; // initialize map only once
-    map.current! = new mapboxgl.Map({
+    map.current = new mapboxgl.Map({
       container: mapContainer.current!,
       style: "mapbox://styles/mapbox/streets-v11",
       center: [lng, lat],
@@ -35,7 +35,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
-    map.current!.on("move", () => {
+    map.current.on("move", () => {
       setLng(map.current!.getCenter().lng.toFixed(4));
       setLat(map.current!.getCenter().lat.toFixed(4));
       setZoom(map.current!.getZoom().toFixed(2));
@@ -77,9 +77,9 @@ const App: React.FC = () => {
         }
       };
 
-      let converted;
-      converted = locations.map((city: object) => {
-        return { ...city, temp: convertTemp(city.temp) };
+      let converted: Location[];
+      converted = locations.map((city) => {
+        return { ...city, temp: convertTemp(parseInt(city.temp)) };
       });
 
       setLocations(prevLocations => [...prevLocations, converted]);
