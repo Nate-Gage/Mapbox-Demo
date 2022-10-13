@@ -19,5 +19,11 @@ To use the Dockerized version of the app:
 - Run 'docker-compose up'
 - View the app at localhost:3000
 
-You should expect to see the below UI:
+You can expect to see the below UI:
 <img src="./client/public/screen shot.png" />
+
+## Notes
+I checked in .env files. Normally in a production instance these would instead be managed
+through a DevOps system. For simplicity, I used the default web server that comes with Create-React-App. This is running in development mode, but wouldn't be used in a production system.  
+
+Thank you!
