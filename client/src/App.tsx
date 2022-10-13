@@ -16,8 +16,8 @@ mapboxgl.accessToken =
     : "";
 
 const App: React.FC = () => {
-  const mapContainer = useRef<any>(null);
-  const map = useRef<any>(null);
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<mapboxgl.Map | null>(null);
   const FILENAME = "location_data";
   const url = "http://localhost:3300/map";
   const F = "Fahrenheit";
@@ -78,8 +78,8 @@ const App: React.FC = () => {
   };
 
   // It is possible to convert the temperature unit from the client, however from
-  // my understanding, the instructions asked that the unit be sent as a flag 
-  // in a request when the user wants to convert the temperature. 
+  // my understanding, the instructions asked that the unit be sent as a flag
+  // in a request when the user wants to convert the temperature.
   const getTemperatures = useCallback(() => {
     axios
       .get(`${url}?unit=${unit}`)
@@ -106,9 +106,9 @@ const App: React.FC = () => {
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {
-      setLng(map?.current?.getCenter().lng.toFixed(4));
-      setLat(map?.current?.getCenter().lat.toFixed(4));
-      setZoom(map?.current?.getZoom().toFixed(2));
+      setLng(parseInt(map?.current?.getCenter().lng.toFixed(4)!));
+      setLat(parseInt(map?.current?.getCenter().lat.toFixed(4)!));
+      setZoom(parseInt(map?.current?.getZoom().toFixed(2)!));
     });
   });
 
