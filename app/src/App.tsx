@@ -101,7 +101,7 @@ const App: React.FC = () => {
     console.log("THERE ARE FILES");
 
     let file = e.target.files[0];
-    const url = "http://localhost:3300/map";
+    const url = "http://localhost/map";
     const formData = new FormData();
 
     formData.append(FILENAME, file);
