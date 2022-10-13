@@ -1,4 +1,4 @@
-# VAISALA - MAPBOX DEMO - NATE GAGE
+# Mapbox Demo - Nate Gage
 
 ## Overview
 
@@ -19,4 +19,5 @@ To use the Dockerized version of the app:
 - Run 'docker-compose up'
 - View the app at localhost:3000
 
+You should expect to see the below UI:
 <img src="./client/public/screen shot.png" />
