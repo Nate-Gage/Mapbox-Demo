@@ -42,17 +42,11 @@ const App: React.FC = () => {
     };
 
     await axios.post(url, formData, config).catch((err) => {
-      window.alert(err.message);
+      window.alert(err.response.data.message);
+      console.log(err);
     });
 
-    axios
-      .get(`${url}?unit=${unit}`)
-      .then((res) => {
-        setLocations(res.data);
-      })
-      .catch((err) => {
-        window.alert(err.message);
-      });
+    getTemperatures();
   };
 
   const handleSetMarkers = useCallback(
@@ -83,6 +77,18 @@ const App: React.FC = () => {
     setUnit(event.target.value);
   };
 
+  const getTemperatures = useCallback(() => {
+    console.log("getting temps");
+    axios
+      .get(`${url}?unit=${unit}`)
+      .then((res) => {
+        setLocations(res.data);
+      })
+      .catch((err) => {
+        window.alert(err.response.data.message);
+      });
+  }, [unit]);
+
   // Initialize map
   useEffect(() => {
     if (map.current) return; // initialize map only once
@@ -112,16 +118,9 @@ const App: React.FC = () => {
   // update unit
   useEffect(() => {
     if (locations.length > 0) {
-      axios
-        .get(`${url}?unit=${unit}`)
-        .then((res) => {
-          setLocations(res.data);
-        })
-        .catch((err) => {
-          window.alert(err.message);
-        });
+      getTemperatures();
     }
-  }, [unit, locations.length]);
+  }, [unit, locations.length, getTemperatures]);
 
   return (
     <Box className="App">
@@ -164,7 +163,7 @@ const App: React.FC = () => {
           <div
             ref={mapContainer}
             className="map-container"
-            style={{ border: "2px solid #1976d2" }}
+            style={{ border: "2px solid #6384DB" }}
           />
         </Grid>
       </Grid>
