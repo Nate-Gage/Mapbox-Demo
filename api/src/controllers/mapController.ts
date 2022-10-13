@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Location }  from '../models/Location'
 const RESOURCE_CREATED = 201;
+const C = "Celsius";
 
 //Data would normally be managed by a back-end database
 //In this case I just hold the data in memory
@@ -10,9 +11,9 @@ const toCelsius = (temp: string) => {
   return (((parseInt(temp) - 32) * 5) / 9).toFixed(2);
 };
 
-export const getTemps = async (req: Request, res: Response) => {
+export const getTemps = (req: Request, res: Response) => {
   //default is Farenheit
-  if (req.query.unit === "Celsius") {
+  if (req.query.unit === C) {
     const converted = temperatureData.map((city) => {
       return { ...city, temp: toCelsius(city.temp) };
     });
@@ -22,7 +23,7 @@ export const getTemps = async (req: Request, res: Response) => {
   }
 };
 
-export const saveTemps = async (req: Request, res: Response) => {
+export const saveTemps = (req: Request, res: Response) => {
   temperatureData = JSON.parse(req.file!.buffer.toString());
   res
     .status(RESOURCE_CREATED)

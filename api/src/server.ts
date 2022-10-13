@@ -6,7 +6,7 @@ import log, { LogLevelDesc } from "loglevel";
 require("dotenv").config();
 
 const app = express();
-const PORT = 80;
+const PORT = 3300;
 
 log.setLevel(process.env.LOG_LEVEL as LogLevelDesc);
 
