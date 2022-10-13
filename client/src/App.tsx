@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const mapContainer = useRef<any>(null);
   const map = useRef<any>(null);
   const FILENAME = "location_data";
-  const C = "Celsius";
+  const url = "http://localhost:3300/map";
   const F = "Fahrenheit";
   const [locations, setLocations] = useState<Location[]>([]);
   const [lng, setLng] = useState<number>(-95.995);
@@ -33,9 +33,7 @@ const App: React.FC = () => {
     }
 
     let file = e.target.files[0];
-    const url = "http://localhost:3300/map";
     const formData = new FormData();
-
     formData.append(FILENAME, file);
     const config = {
       headers: {
@@ -60,7 +58,6 @@ const App: React.FC = () => {
   const handleSetMarkers = useCallback(
     (data: Location[]) => {
       if (data.length > 0) {
-        console.log("setting markers!");
         for (const city of data) {
           // create a HTML element for each feature
           const el = document.createElement("div");
@@ -81,26 +78,6 @@ const App: React.FC = () => {
     },
     [unit]
   );
-
-  const handleConvertTemp = useCallback(() => {
-    if (locations.length > 0) {
-      console.log("converting temp!");
-      const convertTemp = (temp: string) => {
-        if (unit === C) {
-          return (((parseInt(temp) - 32) * 5) / 9).toFixed(2);
-        } else {
-          //assume Fahrenheit
-          return ((parseInt(temp) * 9) / 5 + 32).toFixed(2);
-        }
-      };
-
-      let converted: Location[];
-      converted = locations.map((city) => {
-        return { ...city, temp: convertTemp(city.temp) };
-      });
-      handleSetMarkers(converted);
-    }
-  }, [handleSetMarkers, locations, unit]);
 
   const handleChangeUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUnit(event.target.value);
@@ -132,10 +109,19 @@ const App: React.FC = () => {
     handleSetMarkers(locations);
   }, [locations, handleSetMarkers]);
 
-  // convert temp on the client after markers are set
+  // update unit
   useEffect(() => {
-    handleConvertTemp();
-  }, [unit, handleConvertTemp]);
+    if (locations.length > 0) {
+      axios
+        .get(`${url}?unit=${unit}`)
+        .then((res) => {
+          setLocations(res.data);
+        })
+        .catch((err) => {
+          window.alert(err.message);
+        });
+    }
+  }, [unit, locations.length]);
 
   return (
     <Box className="App">
