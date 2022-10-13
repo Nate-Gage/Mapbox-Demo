@@ -77,8 +77,10 @@ const App: React.FC = () => {
     setUnit(event.target.value);
   };
 
+  // It is possible to convert the temperature unit from the client, however from
+  // my understanding, the instructions asked that the unit be sent as a flag 
+  // in a request when the user wants to convert the temperature. 
   const getTemperatures = useCallback(() => {
-    console.log("getting temps");
     axios
       .get(`${url}?unit=${unit}`)
       .then((res) => {
