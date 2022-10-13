@@ -19,7 +19,7 @@ app.use("/map", router);
 // system this would be more robust
 const jsonErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   log.error(err.stack);
-  res.status(500).send({ error: err.message });
+  res.status(500).send({ message: err.message });
 };
 app.use(jsonErrorHandler);
 
