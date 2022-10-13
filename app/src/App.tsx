@@ -98,8 +98,6 @@ const App: React.FC = () => {
       return;
     }
 
-    console.log("THERE ARE FILES");
-
     let file = e.target.files[0];
     const url = "http://localhost/map";
     const formData = new FormData();
@@ -112,7 +110,7 @@ const App: React.FC = () => {
     };
 
     await axios.post(url, formData, config).catch((err) => {
-      console.log(err);
+      window.alert(err.message);
     });
 
     axios
@@ -121,7 +119,7 @@ const App: React.FC = () => {
         setLocations(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        window.alert(err.message);
       });
   };
 
