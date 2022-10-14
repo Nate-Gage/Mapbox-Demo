@@ -7,11 +7,11 @@ const multiPart = multer();
 
 const FILENAME = "location_data";
 
-router.get("/", (req, res, next) => {
+router.get("/", (req, res) => {
   getTemps(req, res);
 });
 
-router.post("/", multiPart.single(FILENAME), (req, res, next) => {
+router.post("/", multiPart.single(FILENAME), (req, res) => {
   saveTemps(req, res);
 });
 
