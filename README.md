@@ -9,10 +9,7 @@ This application uses the Mapbox API to display temperatures for a group of citi
 To run the project locally:
 
 - Clone the project
-- Run 'npm install'
-- 'npm run build'
-- 'npm run start' from /api to start the Express server.
-- 'npm run start' from /client, to run the web server.
+- Run npm install, npm run build, and npm start from both the api and client directories. 
 - View the app at localhost:3000
 
 To use the Dockerized version of the app:
