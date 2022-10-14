@@ -14,11 +14,10 @@ To run the project locally:
 
 Dockerized version will be provided shortly.
 
-You can expect to see the below UI:
+You can expect to see the below UI
 <img src="./client/public/screen shot.png" />
 
 ## Notes
-I checked in .env files. Normally in a production instance these would instead be managed
-through a DevOps system. For simplicity, I used the default web server that comes with Create-React-App. This is running in development mode, but wouldn't be used in a production system.  
+Express is serving both the REST endpoints and the React static files. For simplicity, I checked in the .env files. Normally you wouldn't do this in a production instance. 
 
 Thank you!
