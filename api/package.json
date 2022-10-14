@@ -1,15 +1,13 @@
 {
-  "name": "server",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "name": "mapbox_demo",
+  "version": "0.1.0",
+  "description": "This is the api side of the demo of mapbox-gl library.",
+  "author": "Nate Gage",
+  "license": "ISC",
   "scripts": {
     "start": "node ./build/server.js",
-    "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

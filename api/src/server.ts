@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors' ;
 import router from './routes/router'
 import log, { LogLevelDesc } from "loglevel";
+import path from 'path';
 
 require("dotenv").config();
 
@@ -12,6 +13,12 @@ log.setLevel(process.env.LOG_LEVEL as LogLevelDesc);
 
 app.use(cors())
 app.use(express.json());  
+
+app.use(express.static(path.join(__dirname,  "../../client", "build")));
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "build", "index.html"));
+});
 
 app.use("/map", router);
 

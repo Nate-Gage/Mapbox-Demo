@@ -62,7 +62,7 @@ const App: React.FC = () => {
               `<h3>${city.city}</h3><p>Temperature: ${city.temp} ${unit}</p>`
             );
 
-          // make a marker for each feature and add to the map
+          // make a marker for each location object and add to the map
           new mapboxgl.Marker(el)
             .setLngLat(city.coordinates)
             .setPopup(popup)

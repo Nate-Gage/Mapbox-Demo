@@ -1,0 +1,11 @@
+{
+  "name": "mapbox_demo",
+  "version": "0.1.0",
+  "description": "",
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd ../api && npm install && npm run build",
+    "start": "cd api && npm run start"
+  }
+}
