@@ -21,6 +21,7 @@ const App: React.FC = () => {
   const FILENAME = "location_data";
   const url = "http://localhost:3300/map";
   const F = "Fahrenheit";
+  const C = "Celsius";
   const [locations, setLocations] = useState<Location[]>([]);
   const [lng, setLng] = useState<number>(-95.995);
   const [lat, setLat] = useState<number>(39.765);
@@ -148,16 +149,8 @@ const App: React.FC = () => {
               defaultValue={F}
               onChange={handleChangeUnit}
             >
-              <FormControlLabel
-                value="Fahrenheit"
-                control={<Radio />}
-                label="Fahrenheit"
-              />
-              <FormControlLabel
-                value="Celsius"
-                control={<Radio />}
-                label="Celsius"
-              />
+              <FormControlLabel value={F} control={<Radio />} label={F} />
+              <FormControlLabel value={C} control={<Radio />} label={C} />
             </RadioGroup>
           </FormControl>
         </Grid>
