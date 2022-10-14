@@ -9,14 +9,15 @@ This application uses the Mapbox API to display temperatures for a group of citi
 To run the project locally:
 
 - Clone the project
-- Run 'npm start' from /api to start the Express server.
-- Run 'npm start' from /client, to run the web server.
+- Run 'npm install'
+- 'npm run build'
+- 'npm run start' from /api to start the Express server.
+- 'npm run start' from /client, to run the web server.
 - View the app at localhost:3000
 
 To use the Dockerized version of the app:
 
-- From the CLI, run 'docker pull nategage/mapbox-demo'
-- Run 'docker-compose up'
+- From the root of the project, run 'docker-compose up'
 - View the app at localhost:3000
 
 You can expect to see the below UI:

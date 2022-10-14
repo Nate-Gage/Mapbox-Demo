@@ -4,7 +4,7 @@ services:
   api:
     container_name: mapbox-demo-api
     restart: unless-stopped
-    image: mapbox-demo-api:0.1.0
+    image: nategage/mapbox-demo-api
     build:
       context: api
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
   client:
     container_name: mapbox-demo-client
     restart: unless-stopped
-    image: mapbox-demo-client:0.1.0
+    image: nategage/mapbox-demo-client
     build:
       context: client
       dockerfile: Dockerfile
