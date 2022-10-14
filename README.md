@@ -12,7 +12,10 @@ To run the project locally:
 - From the root, Run 'npm run build' and then to start the application, run 'npm run start'. 
 - View the app at localhost:3300
 
-Dockerized version will be provided shortly.
+To run the Dockerized version:
+
+- Run 'docker pull nategage/mapbox-demo'
+- Run 'docker run -p 3300:3300 nategage/mapbox-demo'
 
 You can expect to see the below UI
 <img src="./client/public/screen shot.png" />
