@@ -28,7 +28,7 @@ export const saveTemps = (req: Request, res: Response) => {
   res
     .status(RESOURCE_CREATED)
     .set({
-      Location: "/fetch",
+      Location: "/map",
     })
     .send();
 };

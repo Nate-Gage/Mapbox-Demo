@@ -26,7 +26,7 @@ const App: React.FC = () => {
   const [lng, setLng] = useState<number>(-95.995);
   const [lat, setLat] = useState<number>(39.765);
   const [zoom, setZoom] = useState<number>(3.5);
-  const [unit, setUnit] = useState<string>("Fahrenheit");
+  const [unit, setUnit] = useState<string>(F);
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
