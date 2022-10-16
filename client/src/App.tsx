@@ -19,7 +19,7 @@ const App: React.FC = () => {
   const mapContainer = useRef<HTMLDivElement>(null);
   const map = useRef<mapboxgl.Map | null>(null);
   const FILENAME = "location_data";
-  const url = "http://localhost:3300/map";
+  const url = "/map";
   const F = "Fahrenheit";
   const C = "Celsius";
   const [locations, setLocations] = useState<Location[]>([]);
