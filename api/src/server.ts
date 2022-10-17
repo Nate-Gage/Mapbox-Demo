@@ -18,13 +18,18 @@ app.use(express.static(path.join(__dirname,  "../../client", "build")));
 
 app.use("/map", router);
 
-// A very simple error-handling middleware. In a production
-// system this would be more robust
-const jsonErrorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
+/**
+ * Simple error-handling middleware. In a production system this would be more robust
+ * @param err 
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
   log.error(err.stack);
   res.status(500).send({ message: err.message });
 };
-app.use(jsonErrorHandler);
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   log.info(`App is listening at http://localhost:${PORT}`);

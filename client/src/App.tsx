@@ -28,6 +28,9 @@ const App: React.FC = () => {
   const [zoom, setZoom] = useState<number>(3.5);
   const [unit, setUnit] = useState<string>(F);
 
+  /**
+   * Takes uploaded file and saves temperature data.
+   */
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!e.target.files) {
       return;
@@ -50,6 +53,9 @@ const App: React.FC = () => {
     getTemperatures();
   };
 
+  /**
+   * Creates markers on Mapbox
+   */
   const handleSetMarkers = useCallback(
     (data: Location[]) => {
       if (data.length > 0) {
@@ -74,13 +80,19 @@ const App: React.FC = () => {
     [unit]
   );
 
+  /**
+   * Sets state of temperature unit
+   * @param event React.ChangeEvent
+   */
   const handleChangeUnit = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUnit(event.target.value);
   };
 
-  // It is possible to convert the temperature unit from the client, however from
-  // my understanding, the instructions asked that the unit be sent as a flag
-  // in a request when the user wants to convert the temperature.
+  /**
+   * It is possible to convert the temperature unit from the client, however from
+   * my understanding, the instructions asked that the unit be sent as a flag
+   * in a request when the user wants to convert the temperature.
+   */
   const getTemperatures = useCallback(() => {
     axios
       .get(`${url}?unit=${unit}`)
@@ -92,7 +104,9 @@ const App: React.FC = () => {
       });
   }, [unit]);
 
-  // Initialize map
+  /**
+   * Initialize map
+   */
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -103,7 +117,9 @@ const App: React.FC = () => {
     });
   });
 
-  // map movement
+  /**
+   * Map movement
+   */
   useEffect(() => {
     if (!map.current) return; // wait for map to initialize
     map.current.on("move", () => {
@@ -113,12 +129,16 @@ const App: React.FC = () => {
     });
   });
 
-  // add markers to map
+  /**
+   * Calls function to set markers
+   */
   useEffect(() => {
     handleSetMarkers(locations);
   }, [locations, handleSetMarkers]);
 
-  // update unit
+  /**
+   * Calls function to get temperatures with updated unit
+   */
   useEffect(() => {
     if (locations.length > 0) {
       getTemperatures();
