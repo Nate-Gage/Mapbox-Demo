@@ -11,9 +11,6 @@ const PORT = 3300;
 
 log.setLevel(process.env.LOG_LEVEL as LogLevelDesc);
 
-app.use(cors())
-app.use(express.json());  
-
 app.use(express.static(path.join(__dirname,  "../../client", "build")));
 
 app.use("/map", router);
