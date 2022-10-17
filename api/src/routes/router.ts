@@ -1,10 +1,8 @@
 import { Router } from "express";
 import { getTemps, saveTemps } from "../controllers/mapController";
 import multer from "multer";
-
 const router = Router();
 const multiPart = multer();
-
 const FILENAME = "location_data";
 
 /**
