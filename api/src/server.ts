@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express';
-import cors from 'cors' ;
 import router from './routes/router'
 import log, { LogLevelDesc } from "loglevel";
 import path from 'path';
