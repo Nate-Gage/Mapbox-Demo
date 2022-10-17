@@ -47,7 +47,6 @@ const App: React.FC = () => {
 
     await axios.post(url, formData, config).catch((err) => {
       window.alert(err.response.data.message);
-      console.log(err);
     });
 
     getTemperatures();
