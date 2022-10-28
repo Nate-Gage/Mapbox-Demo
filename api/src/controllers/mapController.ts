@@ -21,7 +21,7 @@ const toCelsius = (temp: string) => {
  * @param req
  * @param res
  */
-export const getTemps = (req: Request, res: Response) => {
+const getTemps = (req: Request, res: Response) => {
   //default is Farenheit
   if (req.query.unit === C) {
     const converted = temperatureData.map((city) => {
@@ -38,7 +38,7 @@ export const getTemps = (req: Request, res: Response) => {
  * @param req
  * @param res
  */
-export const saveTemps = (req: Request, res: Response) => {
+const saveTemps = (req: Request, res: Response) => {
   temperatureData = JSON.parse(req.file!.buffer.toString());
   res
     .status(RESOURCE_CREATED)
@@ -46,4 +46,10 @@ export const saveTemps = (req: Request, res: Response) => {
       Location: "/map",
     })
     .send();
+};
+
+module.exports = {
+  toCelsius,
+  saveTemps,
+  getTemps,
 };
