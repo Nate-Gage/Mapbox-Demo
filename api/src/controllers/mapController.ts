@@ -12,8 +12,8 @@ let temperatureData: Location[] = [];
  * @param temp The temperature to be converted.
  * @returns The converted temperature.
  */
-const toCelsius = (temp: string) => {
-  return (((parseInt(temp) - 32) * 5) / 9).toFixed(2);
+export const toCelsius = (temp: string) => {
+  return parseFloat((((parseInt(temp) - 32) * 5) / 9).toFixed(2));
 };
 
 /**
@@ -21,12 +21,13 @@ const toCelsius = (temp: string) => {
  * @param req
  * @param res
  */
-const getTemps = (req: Request, res: Response) => {
+export const getTemps = (req: Request, res: Response) => {
   //default is Farenheit
   if (req.query.unit === C) {
     const converted = temperatureData.map((city) => {
       return { ...city, temp: toCelsius(city.temp) };
     });
+
     res.send(converted);
   } else {
     res.send(temperatureData);
@@ -38,7 +39,7 @@ const getTemps = (req: Request, res: Response) => {
  * @param req
  * @param res
  */
-const saveTemps = (req: Request, res: Response) => {
+export const saveTemps = (req: Request, res: Response) => {
   temperatureData = JSON.parse(req.file!.buffer.toString());
   res
     .status(RESOURCE_CREATED)

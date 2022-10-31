@@ -9,6 +9,9 @@ import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import Typography from "@mui/material/Typography";
 import { Location } from "./components/Location";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+
+export const ThemeContext = React.createContext(true);
 
 mapboxgl.accessToken =
   process.env.REACT_APP_ACCESS_TOKEN !== undefined
@@ -22,11 +25,52 @@ const App: React.FC = () => {
   const url = "/map";
   const F = "Fahrenheit";
   const C = "Celsius";
+  const [darkMode, setDarkMode] = useState<boolean>(true);
   const [locations, setLocations] = useState<Location[]>([]);
   const [lng, setLng] = useState<number>(-95.995);
   const [lat, setLat] = useState<number>(39.765);
   const [zoom, setZoom] = useState<number>(3.5);
   const [unit, setUnit] = useState<string>(F);
+
+  const toggleMode = () => {
+    setDarkMode((prevDarkMode) => !prevDarkMode);
+  };
+
+  const Inputs = () => {
+    return (
+      <>
+        <img
+          src="../mapbox-logo.png"
+          style={{ width: "80%", marginBottom: "30px" }}
+          alt="logo"
+        />
+        <Typography>
+          Upload a file and click on the markers to display the temperature.
+        </Typography>
+        <br />
+        <input type="file" name="file-upload" onChange={handleFileUpload} />
+        <br />
+        <Typography sx={{ marginTop: "60px" }}>Select a Unit</Typography>
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby="mapbox-demo-radio-buttons-group-label"
+            name="row-radio-buttons-group"
+            defaultValue={F}
+            onChange={handleChangeUnit}
+          >
+            <FormControlLabel value={F} control={<Radio />} label={F} />
+            <FormControlLabel value={C} control={<Radio />} label={C} />
+          </RadioGroup>
+        </FormControl>
+        <br />
+        <DarkModeIcon
+          style={{ marginTop: "60px", float: "left", cursor: "pointer" }}
+          onClick={toggleMode}
+        />
+      </>
+    );
+  };
 
   /**
    * Takes uploaded file and saves temperature data.
@@ -145,43 +189,22 @@ const App: React.FC = () => {
   }, [unit, locations.length, getTemperatures]);
 
   return (
-    <Box className="App">
-      <Grid container className="App-header" sx={{ width: "90%" }}>
-        <Grid item xs={3}>
-          <img
-            src="../mapbox-logo.png"
-            style={{ width: "80%", marginBottom: "30px" }}
-            alt="logo"
-          />
-          <Typography>
-            Upload a file and click on the markers to display the temperature.
-          </Typography>
-          <br></br>
-          <input type="file" name="file-upload" onChange={handleFileUpload} />
-          <br />
-          <Typography sx={{ marginTop: "60px" }}>Select a Unit</Typography>
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="mapbox-demo-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              defaultValue={F}
-              onChange={handleChangeUnit}
-            >
-              <FormControlLabel value={F} control={<Radio />} label={F} />
-              <FormControlLabel value={C} control={<Radio />} label={C} />
-            </RadioGroup>
-          </FormControl>
+    <ThemeContext.Provider value={darkMode}>
+      <Box className="App">
+        <Grid container className="App-header" sx={{ width: "90%" }}>
+          <Grid item xs={3}>
+            <Inputs />
+          </Grid>
+          <Grid item xs={9}>
+            <div
+              ref={mapContainer}
+              className="map-container"
+              style={{ border: "2px solid #6384DB" }}
+            />
+          </Grid>
         </Grid>
-        <Grid item xs={9}>
-          <div
-            ref={mapContainer}
-            className="map-container"
-            style={{ border: "2px solid #6384DB" }}
-          />
-        </Grid>
-      </Grid>
-    </Box>
+      </Box>
+    </ThemeContext.Provider>
   );
 };
 
