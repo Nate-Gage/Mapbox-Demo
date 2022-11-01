@@ -3,7 +3,7 @@ import { toCelsius, getTemps } from "../controllers/mapController";
 
 const sum = (a: number, b: number) => a + b;
 
-describe("controller functions", () => {
+describe("controller functions inside mapController.ts", () => {
   test("adds 1 + 2 to equal 3", () => {
     expect(sum(1, 2)).toBe(3);
   });
@@ -14,8 +14,8 @@ describe("controller functions", () => {
   });
 
 /**
- * This test will only return an empty array, since
- * we store temperatureData is memory and it gets 
+ * We expect this to return empty array, since
+ * we store temperatureData in memory and it gets 
  * initialized as an empty array in mapController.ts.
  */
   test("get temperature data", () => {
